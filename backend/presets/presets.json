@@ -1,0 +1,233 @@
+{
+  "default": {
+    "checkpoint": "REPLACE_ME_v1-5-pruned-emaonly.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Bande dessinée": {
+    "checkpoint": "REPLACE_ME_bande_dessinee.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Photoréaliste": {
+    "checkpoint": "REPLACE_ME_photorealiste.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Anime": {
+    "checkpoint": "REPLACE_ME_anime.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Peinture à l'huile": {
+    "checkpoint": "REPLACE_ME_peinture_a_l_huile.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Aquarelle": {
+    "checkpoint": "REPLACE_ME_aquarelle.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Pixel art": {
+    "checkpoint": "REPLACE_ME_pixel_art.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "3D render": {
+    "checkpoint": "REPLACE_ME_3d_render.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Croquis crayon": {
+    "checkpoint": "REPLACE_ME_croquis_crayon.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Cyberpunk": {
+    "checkpoint": "REPLACE_ME_cyberpunk.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Fantasy médiéval": {
+    "checkpoint": "REPLACE_ME_fantasy_medieval.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Noir et blanc argentique": {
+    "checkpoint": "REPLACE_ME_noir_et_blanc_argentique.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Pop art": {
+    "checkpoint": "REPLACE_ME_pop_art.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Minimaliste vectoriel": {
+    "checkpoint": "REPLACE_ME_minimaliste_vectoriel.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Surréaliste": {
+    "checkpoint": "REPLACE_ME_surrealiste.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Steampunk": {
+    "checkpoint": "REPLACE_ME_steampunk.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Gothique": {
+    "checkpoint": "REPLACE_ME_gothique.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Art nouveau": {
+    "checkpoint": "REPLACE_ME_art_nouveau.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Cartoon": {
+    "checkpoint": "REPLACE_ME_cartoon.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Isométrique": {
+    "checkpoint": "REPLACE_ME_isometrique.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  },
+  "Impressionniste": {
+    "checkpoint": "REPLACE_ME_impressionniste.safetensors",
+    "lora": null,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "steps": 20,
+    "cfg": 7.0,
+    "width": 512,
+    "height": 512,
+    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+  }
+}
