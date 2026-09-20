@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 
 from app.data.questions import QUESTION_ORDER
@@ -13,21 +14,45 @@ def test_get_questions_returns_five_questions_of_twenty_options(client: TestClie
         assert len(question["options"]) == 20
 
 
-def test_post_script_free_prompt(client: TestClient) -> None:
+def test_post_script_free_prompt_translates_to_english(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(
+        "app.routers.script.translate_to_english",
+        lambda text: text.replace("un chat en armure", "a cat in armor"),
+    )
     response = client.post("/api/script", json={"mode": "free_prompt", "prompt": "un chat en armure"})
     assert response.status_code == 200
     data = response.json()
-    assert data["script"] == "un chat en armure"
+    assert data["script"] == "a cat in armor"
     assert data["answers"] is None
     assert data["style"] is None
 
 
-def test_post_script_global_random(client: TestClient) -> None:
+def test_post_script_free_prompt_falls_back_when_translation_model_missing(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr("app.services.translation._get_translation", lambda: None)
+    response = client.post("/api/script", json={"mode": "free_prompt", "prompt": "un chat en armure"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["script"] == "un chat en armure"
+
+
+def test_post_script_global_random(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Tirage déterministe : certaines options traduites contiennent une virgule
+    # interne (ex. "artistic blur, bokeh"), donc compter les virgules du script
+    # n'est pas un moyen fiable de vérifier le nombre de tags tirés au sort.
+    monkeypatch.setattr("app.services.script_builder.draw_random_index", lambda n: 1)
+
     response = client.post("/api/script", json={"mode": "global_random"})
     assert response.status_code == 200
     data = response.json()
     assert set(data["answers"].keys()) == set(QUESTION_ORDER)
-    assert data["script"].count(",") == 4
+    for key in QUESTION_ORDER:
+        assert data["answers"][key]["index"] == 1
     assert data["style"] == data["answers"]["what"]["text"]
 
 

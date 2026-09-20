@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { AnswerInput, QuestionDefinition } from "../types";
 import { OptionList } from "./OptionList";
+import { DiceIcon, FreePromptIcon } from "./icons";
+import { trackSpotlight } from "../utils/spotlight";
 
 interface QuestionCardProps {
   question: QuestionDefinition;
@@ -18,8 +20,13 @@ export function QuestionCard({ question, onAnswer, disabled }: QuestionCardProps
     setFreeText("");
   };
 
+  const chooseRandom = () => {
+    const randomIndex = Math.floor(Math.random() * question.options.length) + 1;
+    onAnswer({ source: "list", index: randomIndex });
+  };
+
   return (
-    <div className="question-card">
+    <div className="question-card card" onMouseMove={trackSpotlight}>
       <h2>{question.label}</h2>
 
       <OptionList
@@ -28,31 +35,44 @@ export function QuestionCard({ question, onAnswer, disabled }: QuestionCardProps
         disabled={disabled}
       />
 
-      <form className="question-card__free-text" onSubmit={submitFreeText}>
-        <label htmlFor="free-text-input">Ou réponse libre</label>
-        <div className="question-card__free-text-row">
+      <div className="question-card__footer">
+        <form className="question-card__free-text" onSubmit={submitFreeText}>
+          <span
+            className="question-card__free-text-icon"
+            aria-hidden="true"
+            title="Free answer"
+          >
+            <FreePromptIcon />
+          </span>
           <input
             id="free-text-input"
             type="text"
+            aria-label="Free answer"
             value={freeText}
             onChange={(event) => setFreeText(event.target.value)}
             disabled={disabled}
-            placeholder="Votre propre réponse…"
+            placeholder="Your own answer…"
           />
-          <button type="submit" disabled={disabled || !freeText.trim()}>
-            Valider
+          <button
+            type="submit"
+            className="btn btn--accent2 btn--sm"
+            disabled={disabled || !freeText.trim()}
+          >
+            Confirm
           </button>
-        </div>
-      </form>
+        </form>
 
-      <button
-        type="button"
-        className="question-card__random"
-        onClick={() => onAnswer({ source: "random" })}
-        disabled={disabled}
-      >
-        L'app décide pour cette question
-      </button>
+        <button
+          type="button"
+          className="icon-button question-card__random"
+          onClick={chooseRandom}
+          disabled={disabled}
+          aria-label="Let the app decide for this question"
+          title="Let the app decide for this question"
+        >
+          <DiceIcon />
+        </button>
+      </div>
     </div>
   );
 }

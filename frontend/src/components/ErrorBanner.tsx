@@ -7,7 +7,7 @@ interface ErrorBannerProps {
 export function ErrorBanner({ error }: ErrorBannerProps) {
   return (
     <div className="error-banner" role="alert">
-      <strong>Erreur.</strong> {error.detail}
+      <strong>Error.</strong> {error.detail}
     </div>
   );
 }

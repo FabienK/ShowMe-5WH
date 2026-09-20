@@ -2,7 +2,7 @@ interface LoaderProps {
   label?: string;
 }
 
-export function Loader({ label = "Chargement…" }: LoaderProps) {
+export function Loader({ label = "Loading…" }: LoaderProps) {
   return (
     <div className="loader" role="status">
       <span className="loader__spinner" aria-hidden="true" />

@@ -9,6 +9,14 @@ venv/
 # Environment
 .env
 
+# Images générées par les batches (contenu généré, pas du code) —
+# les sorties OpenAI/ComfyUI hors batch vont dans ComfyUI/, déjà ignoré plus bas
+backend/generated_batches/
+
+# Logs et état mutable (pas du code)
+backend/backend_run.log
+backend/state/
+
 # Node / frontend
 frontend/node_modules/
 frontend/dist/

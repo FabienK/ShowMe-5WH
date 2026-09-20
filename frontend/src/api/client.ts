@@ -1,7 +1,10 @@
 import type {
   ApiError,
+  BatchDetail,
+  BatchSummary,
   GenerateRequest,
   GenerateResponse,
+  OpenAIState,
   QuestionDefinition,
   ScriptRequest,
   ScriptResponse,
@@ -64,5 +67,31 @@ export function postGenerate(body: GenerateRequest): Promise<GenerateResponse> {
   return request<GenerateResponse>("/api/generate", {
     method: "POST",
     body: JSON.stringify(body),
+  });
+}
+
+export function postBatch(items: GenerateRequest[]): Promise<{ batch_id: string }> {
+  return request<{ batch_id: string }>("/api/batches", {
+    method: "POST",
+    body: JSON.stringify({ items }),
+  });
+}
+
+export function getBatches(): Promise<BatchSummary[]> {
+  return request<{ batches: BatchSummary[] }>("/api/batches").then((data) => data.batches);
+}
+
+export function getBatch(batchId: string): Promise<BatchDetail> {
+  return request<BatchDetail>(`/api/batches/${batchId}`);
+}
+
+export function getOpenAIBalance(): Promise<OpenAIState> {
+  return request<OpenAIState>("/api/openai/balance");
+}
+
+export function putOpenAIBalance(balanceUsd: number): Promise<OpenAIState> {
+  return request<OpenAIState>("/api/openai/balance", {
+    method: "PUT",
+    body: JSON.stringify({ balance_usd: balanceUsd }),
   });
 }

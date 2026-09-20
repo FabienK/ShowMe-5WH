@@ -9,7 +9,7 @@ QUESTION_ORDER: list[str] = ["what", "who", "where", "when", "how"]
 
 QUESTIONS: dict[str, dict] = {
     "what": {
-        "label": "What — sujet et style visuel",
+        "label": "What — style visuel",
         "options": [
             "Bande dessinée",
             "Photoréaliste",

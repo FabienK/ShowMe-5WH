@@ -1,0 +1,97 @@
+{
+  "1": {
+    "class_type": "UnetLoaderGGUF",
+    "inputs": {
+      "unet_name": "REPLACE_ME.gguf"
+    }
+  },
+  "2": {
+    "class_type": "DualCLIPLoader",
+    "inputs": {
+      "clip_name1": "REPLACE_ME.safetensors",
+      "clip_name2": "REPLACE_ME.safetensors",
+      "type": "flux"
+    }
+  },
+  "3": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "REPLACE_ME.safetensors"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "",
+      "clip": ["2", 0]
+    }
+  },
+  "5": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": ["4", 0]
+    }
+  },
+  "6": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "REPLACE_ME.png"
+    }
+  },
+  "7": {
+    "class_type": "FluxKontextImageScale",
+    "inputs": {
+      "image": ["6", 0]
+    }
+  },
+  "8": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": ["7", 0],
+      "vae": ["3", 0]
+    }
+  },
+  "9": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": ["4", 0],
+      "latent": ["8", 0]
+    }
+  },
+  "10": {
+    "class_type": "FluxGuidance",
+    "inputs": {
+      "conditioning": ["9", 0],
+      "guidance": 2.5
+    }
+  },
+  "11": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 0,
+      "steps": 20,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": ["1", 0],
+      "positive": ["10", 0],
+      "negative": ["5", 0],
+      "latent_image": ["8", 0]
+    }
+  },
+  "12": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["11", 0],
+      "vae": ["3", 0]
+    }
+  },
+  "13": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "4w1h_flux_kontext",
+      "images": ["12", 0]
+    }
+  }
+}

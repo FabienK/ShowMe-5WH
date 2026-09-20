@@ -16,8 +16,10 @@ export function OptionList({ options, onSelect, disabled }: OptionListProps) {
               className="option-list__item"
               onClick={() => onSelect(index)}
               disabled={disabled}
+              title={option}
             >
-              <span className="option-list__number">{index}.</span> {option}
+              <span className="option-list__number">{index}</span>
+              <span className="option-list__label">{option}</span>
             </button>
           </li>
         );

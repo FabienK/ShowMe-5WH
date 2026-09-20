@@ -1,233 +1,621 @@
 {
   "default": {
-    "checkpoint": "REPLACE_ME_v1-5-pruned-emaonly.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_default",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Modèle généraliste, utilisé quand aucun style n'est identifié.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Bande dessinée": {
-    "checkpoint": "REPLACE_ME_bande_dessinee.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "anima_bd",
+        "label": "Anima",
+        "version": "base v1.0",
+        "estimated_time": "~7 min",
+        "description": "Comics occidental, encrage épais et trames façon Marvel/DC.",
+        "engine_type": "anima",
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "counterfeit_bd",
+        "label": "Counterfeit",
+        "version": "V2.5",
+        "estimated_time": "~20s",
+        "description": "Style manga/anime, rapide.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "Counterfeit-V2.5_fp16.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 512,
+        "height": 512,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Photoréaliste": {
-    "checkpoint": "REPLACE_ME_photorealiste.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "realistic_lexique_1216",
+        "label": "Realistic Vision Lexique",
+        "version": "V6.0 1216x832",
+        "estimated_time": "~30s",
+        "description": "Photoréaliste pour 7 images lexique (fisheye, télé, PdC, bokeh, éclairages).",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "Realistic_Vision_V6.0_NV_B1_fp16.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 28,
+        "cfg": 6.5,
+        "width": 1216,
+        "height": 832,
+        "negative_prompt": "watermark, text, letters, blurry, low quality, bad anatomy, extra limbs, distorted perspective unintended, tilted horizon, cartoon, illustration, painting, sketch"
+      },
+      {
+        "id": "realistic_vision_photo",
+        "label": "Realistic Vision",
+        "version": "V6.0",
+        "estimated_time": "~20s",
+        "description": "Rapide pour itérer, peut dériver légèrement du prompt (couleur, ambiance).",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "Realistic_Vision_V6.0_NV_B1_fp16.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 512,
+        "height": 512,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "flux_photo",
+        "label": "Flux",
+        "version": "dev",
+        "estimated_time": "~12 min",
+        "description": "Très fidèle au prompt exact.",
+        "engine_type": "flux",
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "flux_schnell_photo",
+        "label": "Flux",
+        "version": "schnell",
+        "estimated_time": "~2 min 30",
+        "description": "Aussi rapide que le modèle rapide, avec la fidélité de Flux.",
+        "engine_type": "flux_schnell",
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Anime": {
-    "checkpoint": "REPLACE_ME_anime.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "counterfeit_anime",
+        "label": "Counterfeit",
+        "version": "V2.5",
+        "estimated_time": "~20s",
+        "description": "Style anime intrinsèque au checkpoint.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "Counterfeit-V2.5_fp16.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 512,
+        "height": 512,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Peinture à l'huile": {
-    "checkpoint": "REPLACE_ME_peinture_a_l_huile.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_huile",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Bon rendu peinture à l'huile (traits de pinceau, impasto).",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "flux_huile",
+        "label": "Flux",
+        "version": "dev",
+        "estimated_time": "~12 min",
+        "description": "Plus riche en détails et couleurs.",
+        "engine_type": "flux",
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Aquarelle": {
-    "checkpoint": "REPLACE_ME_aquarelle.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_aquarelle",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min 30",
+        "description": "Bon rendu aquarelle.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "flux_aquarelle",
+        "label": "Flux",
+        "version": "dev",
+        "estimated_time": "~12 min",
+        "description": "Texture papier et bords fondus plus fins.",
+        "engine_type": "flux",
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Pixel art": {
-    "checkpoint": "REPLACE_ME_pixel_art.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_pixelart",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Respecte bien la scène demandée.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "flux_pixelart",
+        "label": "Flux",
+        "version": "dev",
+        "estimated_time": "~12 min",
+        "description": "Encore plus riche et détaillé.",
+        "engine_type": "flux",
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "3D render": {
-    "checkpoint": "REPLACE_ME_3d_render.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_3drender_lora",
+        "label": "SDXL",
+        "version": "+ LoRA 3D Render Style",
+        "estimated_time": "~2 min",
+        "description": "Rendu CGI/Pixar glossy.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": "3d_render_style_xl.safetensors",
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Croquis crayon": {
-    "checkpoint": "REPLACE_ME_croquis_crayon.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_croquis_lexique",
+        "label": "SDXL Lexique Croquis",
+        "version": "1216x832 ligne claire",
+        "estimated_time": "~2 min",
+        "description": "Croquis didactique ligne claire pour lexique 34 (27 images).",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 28,
+        "cfg": 6.5,
+        "width": 1216,
+        "height": 832,
+        "negative_prompt": "watermark, text, letters, blurry, low quality, bad anatomy, extra limbs, distorted perspective unintended, tilted horizon, duplicated building, photorealistic, 3d render"
+      },
+      {
+        "id": "sdxl_croquis",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Rendu fini, traits détaillés, composition riche.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Cyberpunk": {
-    "checkpoint": "REPLACE_ME_cyberpunk.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_cyberpunk",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Ambiance néon/pluie bien rendue.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "flux_cyberpunk",
+        "label": "Flux",
+        "version": "dev",
+        "estimated_time": "~12 min",
+        "description": "Le rendu le plus cinématique.",
+        "engine_type": "flux",
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "flux_schnell_cyberpunk",
+        "label": "Flux",
+        "version": "schnell",
+        "estimated_time": "~2 min 30",
+        "description": "Rendu cyborg plus littéral, à vitesse proche de SDXL.",
+        "engine_type": "flux_schnell",
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Fantasy médiéval": {
-    "checkpoint": "REPLACE_ME_fantasy_medieval.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_fantasy",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Rendu détaillé façon CGI.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "sdxl_fantasy_lora_art",
+        "label": "SDXL",
+        "version": "+ LoRA Fantasy Art XL",
+        "estimated_time": "~2 min",
+        "description": "Style peinture classique façon Boris Vallejo.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": "fantasy_art_xl.safetensors",
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Noir et blanc argentique": {
-    "checkpoint": "REPLACE_ME_noir_et_blanc_argentique.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_nb_argentique",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Composition riche et détaillée.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "rv_nb_argentique_lora_film",
+        "label": "Realistic Vision",
+        "version": "+ LoRA Analog Film",
+        "estimated_time": "~20s",
+        "description": "Grain de film naturel.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "Realistic_Vision_V6.0_NV_B1_fp16.safetensors",
+        "lora": "film_lora_analog.safetensors",
+        "lora_strength": 0.7,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 512,
+        "height": 512,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Pop art": {
-    "checkpoint": "REPLACE_ME_pop_art.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_popart",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Vrai style Warhol : trame de points, blocs de couleurs vives.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "counterfeit_popart",
+        "label": "Counterfeit",
+        "version": "V2.5",
+        "estimated_time": "~20s",
+        "description": "Couleurs vives façon illustration/anime, moins de trame demi-teinte.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "Counterfeit-V2.5_fp16.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 512,
+        "height": 512,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Minimaliste vectoriel": {
-    "checkpoint": "REPLACE_ME_minimaliste_vectoriel.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_minimaliste",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Illustration vectorielle plate détaillée façon éditoriale.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Surréaliste": {
-    "checkpoint": "REPLACE_ME_surrealiste.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_surrealiste",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Composition narrative forte façon Dali.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Steampunk": {
-    "checkpoint": "REPLACE_ME_steampunk.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_steampunk_lora",
+        "label": "SDXL",
+        "version": "+ LoRA Steampunk XL",
+        "estimated_time": "~2 min",
+        "description": "Scène narrative (dirigeable/machinerie), planche technique victorienne.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": "steampunk_xl_v2.safetensors",
+        "lora_strength": 0.8,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Gothique": {
-    "checkpoint": "REPLACE_ME_gothique.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_gothique",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Cathédrale quasi photoréaliste, vitraux colorés somptueux.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      },
+      {
+        "id": "sdxl_gothique_lora_dark",
+        "label": "SDXL",
+        "version": "+ LoRA Dark Gothic Fantasy",
+        "estimated_time": "~2 min",
+        "description": "Rendu plus peint/sombre, gargouilles visibles.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": "dark_gothic_fantasy_xl.safetensors",
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Art nouveau": {
-    "checkpoint": "REPLACE_ME_art_nouveau.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_art_nouveau",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Cadre décoratif riche, couleurs chaudes.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Cartoon": {
-    "checkpoint": "REPLACE_ME_cartoon.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_cartoon_lora",
+        "label": "SDXL",
+        "version": "+ LoRA Animated Concept",
+        "estimated_time": "~2 min",
+        "description": "Vrai character design façon studio d'animation.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": "animated_concept_sdxl.safetensors",
+        "lora_strength": 0.75,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Isométrique": {
-    "checkpoint": "REPLACE_ME_isometrique.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_isometrique",
+        "label": "SDXL",
+        "version": "base 1.0",
+        "estimated_time": "~2 min",
+        "description": "Diorama riche et détaillé, mobilier complet.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": null,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   },
   "Impressionniste": {
-    "checkpoint": "REPLACE_ME_impressionniste.safetensors",
-    "lora": null,
-    "sampler": "euler",
-    "scheduler": "normal",
-    "steps": 20,
-    "cfg": 7.0,
-    "width": 512,
-    "height": 512,
-    "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+    "models": [
+      {
+        "id": "sdxl_impressionniste_lora_monet",
+        "label": "SDXL",
+        "version": "+ LoRA Monet Painting Style",
+        "estimated_time": "~2 min",
+        "description": "Texture et palette quasi identiques aux Nymphéas.",
+        "engine_type": "sd_checkpoint",
+        "checkpoint": "sd_xl_base_1.0.safetensors",
+        "lora": "monet_painting_style_xl.safetensors",
+        "lora_strength": 0.9,
+        "sampler": "euler",
+        "scheduler": "normal",
+        "steps": 20,
+        "cfg": 7.0,
+        "width": 1024,
+        "height": 1024,
+        "negative_prompt": "low quality, blurry, deformed, extra limbs, watermark"
+      }
+    ]
   }
 }
