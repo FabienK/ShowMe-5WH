@@ -103,7 +103,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env   # ajuster COMFYUI_HOST/PORT si besoin
-uvicorn app.main:app --port 8000
+uvicorn app.main:app --port 8540
 ```
 
 ### 3. Frontend
@@ -115,7 +115,27 @@ npm run dev
 ```
 
 Ouvrez ensuite `http://localhost:5173` — le serveur de dev proxifie les
-appels `/api/*` vers le backend sur le port 8000.
+appels `/api/*` vers le backend sur le port **8540**.
+
+> Pourquoi 8540 et pas 8000 : 8000 est le port par défaut de
+> `python -m http.server` et d'autres projets sur la même machine ; un autre
+> serveur y répondait parfois à la place de ShowMe. 8540 est réservé à
+> ShowMe, et `GET /api/health` renvoie `{"app":"ShowMe-5WH"}` pour
+> s'en assurer.
+
+### Démarrage en une commande
+
+```bash
+./scripts/start_showme.sh              # ComfyUI + backend (idempotent)
+./scripts/start_showme.sh --with-frontend
+./scripts/stop_showme.sh [--all]
+```
+
+### Utilisation depuis un autre projet / par un agent
+
+Voir **[`AGENT.md`](AGENT.md)** : mode d'emploi autonome de l'API
+(démarrage, `/api/status`, `/api/script` + `/api/generate`, tableau des
+`model_id`, batch, erreurs).
 
 ### 4. Modèle de traduction (recommandé)
 

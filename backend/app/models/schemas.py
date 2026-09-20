@@ -193,6 +193,28 @@ class ComfyUIStatusResponse(BaseModel):
     reachable: bool
 
 
+class CurrentJobInfo(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+
+    model_id: str
+    source: Literal["generate", "batch"]
+    batch_id: str | None = None
+    started_at: str
+
+
+class StatusResponse(BaseModel):
+    """GET /api/status — à consulter avant de lancer une génération depuis un
+    autre programme/agent (voir AGENT.md) : busy = une génération est en
+    cours (verrou pris, services/activity.py), waiting = appels déjà en file
+    derrière elle."""
+
+    busy: bool
+    current: CurrentJobInfo | None = None
+    waiting: int
+    running_batches: list[str]
+    comfyui_reachable: bool
+
+
 # --- Génération via OpenAI (GPT Image 2) ---
 #
 # Solde purement local et estimatif : aucun endpoint OpenAI fiable n'existe

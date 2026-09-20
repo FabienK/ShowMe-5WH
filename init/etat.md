@@ -1,7 +1,7 @@
 # État du projet — Générateur d'images 4W1H
 
-Snapshot au 20/09/2026 (mise à jour : séparation physique du pack Gumroad
-+ regroupement des sorties OpenAI). Le `README.md` à la racine ne décrit
+Snapshot au 20/09/2026 (mise à jour : port 8540, AGENT.md, verrou de
+génération — voir la première section ci-dessous). Le `README.md` à la racine ne décrit
 que la V1 initiale ; ce fichier documente ce qui a été ajouté depuis, sans
 dupliquer le contenu du README (installation, presets, checklist Mac
 mini — voir `README.md` pour ça).
@@ -15,6 +15,55 @@ git déplacé tel quel, historique intact), le pack a migré vers
 `Projets Claude code/Pack Gumroad Methode 5Q/`. Les chemins relatifs
 internes au repo (`backend/`, `frontend/`, `ComfyUI/`…) sont inchangés,
 seule la racine a bougé.
+
+## Session du 20/09/2026 (soir) : port dédié 8540, `AGENT.md`, verrou de génération
+
+Deux problèmes récurrents quand un autre projet (Blog photo…) utilise ShowMe
+par son API : l'agent devait relire tout le dépôt pour comprendre l'API, et
+le port 8000 (défaut de `python -m http.server`, utilisé par d'autres
+projets) était parfois occupé — ShowMe ne démarrait pas, ou l'agent tapait
+sur le mauvais serveur.
+
+- **Port backend 8000 → 8540** (dédié). `frontend/vite.config.ts` (proxy),
+  `.claude/launch.json` (config `backend` ajoutée), `README.md`,
+  `frontend/.env.example`. `GET /api/health` renvoie désormais
+  `{"status":"ok","app":"ShowMe-5WH"}` pour qu'un script vérifie qu'il parle
+  bien à ShowMe.
+- **`scripts/start_showme.sh`** (idempotent : ComfyUI 8188 + backend 8540,
+  `--with-frontend` pour Vite ; refuse avec un message clair si un port est
+  pris par un autre processus, testé avec un `http.server` intrus) et
+  **`scripts/stop_showme.sh`** (`--all` pour ComfyUI aussi). Le venv backend
+  a des shebangs cassés depuis le déplacement du dossier
+  (`.venv/bin/uvicorn` pointe vers l'ancien chemin `Image generator /…`) :
+  tout passe par `.venv/bin/python -m uvicorn`. **Corrigé ensuite** : les
+  82 scripts d'entrée des deux venvs (`backend/.venv/bin/*`,
+  `ComfyUI/.venv/bin/*`, + `pyvenv.cfg`) ont été réécrits vers le nouveau
+  chemin — `pip`, `uvicorn`, `pytest` répondent à nouveau directement.
+  Audit post-déplacement : aucune autre référence à l'ancien chemin (code,
+  configs, ComfyUI hors venv, launchd, cron) ; les mémoires Claude Code de
+  l'ancien dossier de projet ont été recopiées dans celles de `ShowMe-5WH`.
+- **Verrou global de génération** (`services/activity.py`, appliqué dans
+  `generation_dispatch.dispatch_generation`, donc `/api/generate` et batch) :
+  une seule génération à la fois, les appels concurrents attendent leur tour
+  et le timeout ComfyUI ne court qu'une fois le tour venu (avant : faux 504
+  quand deux appels se suivaient). **`GET /api/status`** : `busy`, `current`
+  (`model_id`, `source` generate/batch, `batch_id`, `started_at`),
+  `waiting`, `running_batches`, `comfyui_reachable`. Tests :
+  `tests/test_status_and_lock.py` (5 tests). Vérifié en réel : deux
+  `/api/generate` Flux schnell simultanés → `busy:true, waiting:1`, les deux
+  images produites l'une après l'autre.
+- **`AGENT.md`** à la racine : mode d'emploi autonome pour un agent d'un
+  autre projet (démarrage, status, `/api/script` + `/api/generate` avec curl,
+  tableau complet style → `model_id` généré depuis `presets.json` + moteurs
+  ajoutés automatiquement, batch, img2img, OpenAI, erreurs, timeouts). Ligne
+  ajoutée dans `~/.claude/CLAUDE.md` (global) : « génération d'images →
+  lire uniquement `AGENT.md` ». `Blog photo/automation/PIPELINE.md` corrigé
+  (ancien chemin `Image generator /…` et port 8000 → `AGENT.md`, 8540).
+- Tests : backend 100 (2 échecs **préexistants**, non liés :
+  `test_generate_openai_missing_api_key` — une clé est présente dans `.env`
+  — et `test_photoreliste_and_cyberpunk_offer_flux_schnell_as_third_choice`,
+  ordre des modèles dans `presets.json`), frontend 33 + build + lint OK.
+- Commité et poussé sur `origin/claude/application-en-description-8w85tz` à la demande de l'utilisateur (20/09/2026, soir).
 
 ## Vue d'ensemble
 
@@ -616,19 +665,11 @@ paralléliser les appels ComfyUI. Temps mesurés en conditions réelles :
 
 ## État du contrôle de version
 
-Un seul commit existe dans l'historique git (« Implémenter la V1 de l'app
-4W1H »). **Tout le travail depuis — img2img/Flux Kontext, dispatch
-multi-moteurs, génération par lots, assistant/multi-modèles dans le batch,
-page Historique, accès LAN, retrait du mode démo, renommage, refonte design
-de l'accueil (dont l'effet spotlight sur `.card`), micro-animations
-(plans 001-006), la suite de la refonte du 19/08 (nav, mode-selector,
-icônes, couleur, typographie, bandeau, traduction UI en anglais), la
-refonte de `ScriptPreviewPage` du 20/08 (réorganisation, couleur, spotlight
-étendu au sélecteur de modèle), et le moteur OpenAI GPT Image 2 du 30/08
-(6ᵉ moteur, solde de crédit, onglet Settings) —
-n'est pas committé** (plus de 70 fichiers modifiés, non stagés à ce jour).
-Décision explicite de l'utilisateur : pas de commit, l'app reste locale et
-n'est pas destinée à être déployée.
+Dépôt GitHub `FabienK/ShowMe-5WH`, branche de travail
+`claude/application-en-description-8w85tz`. Trois commits : la V1, puis
+le gros commit du 20/09 (dispatch multi-moteurs, batch, OpenAI, refonte
+design), puis celui du 20/09 soir (port 8540, `AGENT.md`, verrou,
+scripts). Commit et push **uniquement à la demande** de l'utilisateur.
 
 ## Tests
 

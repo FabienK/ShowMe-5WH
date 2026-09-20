@@ -8,7 +8,7 @@ from fastapi.testclient import TestClient
 
 from app.config import settings
 from app.main import app
-from app.services import comfyui_client, openai_generator
+from app.services import activity, comfyui_client, openai_generator
 
 # 1x1 transparent PNG, used as the fake ComfyUI output.
 _TINY_PNG = base64.b64decode(
@@ -138,3 +138,10 @@ def _isolate_batches_dir(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
 def _isolate_generated_openai_dir(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
     """Empêche les tests d'écrire dans le vrai backend/generated_openai/."""
     monkeypatch.setattr(settings, "generated_openai_dir", tmp_path / "generated_openai")
+
+
+@pytest.fixture(autouse=True)
+def _reset_activity() -> None:
+    """Le verrou de génération se lie à la boucle asyncio du TestClient du test
+    précédent — on repart d'un verrou neuf à chaque test."""
+    activity.reset()

@@ -5,7 +5,7 @@ model.engine_type."""
 
 from app.config import settings
 from app.models.schemas import GenerateRequest, ModelOption, PresetConfig
-from app.services import comfyui_client, openai_generator, openai_state_store
+from app.services import activity, comfyui_client, openai_generator, openai_state_store
 from app.services.comfyui_client import GenerationResult
 from app.services.negative_prompt import strip_negative_conflicts
 
@@ -32,10 +32,27 @@ async def dispatch_generation(
     model: ModelOption,
     seed: int,
     reference_image_bytes: bytes | None,
+    *,
+    source: activity.JobSource = "generate",
+    batch_id: str | None = None,
 ) -> GenerationResult:
     """Suppose que model a déjà été résolu (resolve_model), que
     validate_engine_constraints() est passée, et que l'image de référence a
-    déjà été décodée par l'appelant."""
+    déjà été décodée par l'appelant.
+
+    Une seule génération à la fois, tous appelants confondus (voir
+    services/activity.py) : les appels concurrents attendent leur tour ici,
+    avant que le timeout ComfyUI ne commence à courir."""
+    async with activity.generation_slot(model.id, source, batch_id):
+        return await _dispatch_unlocked(request, model, seed, reference_image_bytes)
+
+
+async def _dispatch_unlocked(
+    request: GenerateRequest,
+    model: ModelOption,
+    seed: int,
+    reference_image_bytes: bytes | None,
+) -> GenerationResult:
     if model.engine_type == "flux":
         return await comfyui_client.generate_image_flux(
             request.script, seed, reference_image_bytes, request.denoise_strength

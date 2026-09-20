@@ -6,13 +6,15 @@ from fastapi import APIRouter, HTTPException
 from app.config import settings
 from app.models.schemas import (
     ComfyUIStatusResponse,
+    CurrentJobInfo,
     ErrorResponse,
     GenerateRequest,
     GenerateResponse,
     ModelOption,
     PresetUsed,
+    StatusResponse,
 )
-from app.services import comfyui_client
+from app.services import activity, batch_store, comfyui_client
 from app.services.generation_dispatch import dispatch_generation, validate_engine_constraints
 from app.services.image_validation import InvalidReferenceImageError, decode_and_validate_reference_image
 from app.services.openai_generator import OpenAIGenerationError, OpenAIMissingApiKeyError, save_image
@@ -27,6 +29,22 @@ _SEED_MAX = 2**32 - 1
 async def get_comfyui_status() -> ComfyUIStatusResponse:
     reachable = await comfyui_client.is_reachable()
     return ComfyUIStatusResponse(reachable=reachable)
+
+
+@router.get("/status", response_model=StatusResponse)
+async def get_status() -> StatusResponse:
+    current = activity.current_job()
+    return StatusResponse(
+        busy=activity.is_busy(),
+        current=CurrentJobInfo(**current.model_dump()) if current else None,
+        waiting=activity.waiting_count(),
+        running_batches=[
+            summary.batch_id
+            for summary in batch_store.list_batches()
+            if summary.status == "running"
+        ],
+        comfyui_reachable=await comfyui_client.is_reachable(),
+    )
 
 
 def preset_used(

@@ -76,7 +76,9 @@ async def _run_one_item(batch_id: str, item: BatchItemResult) -> None:
     if request.reference_image is not None:
         reference_image_bytes = decode_and_validate_reference_image(request.reference_image)
 
-    result = await dispatch_generation(request, model, seed, reference_image_bytes)
+    result = await dispatch_generation(
+        request, model, seed, reference_image_bytes, source="batch", batch_id=batch_id
+    )
 
     image_file = batch_store.image_path(batch_id, item.index)
     image_file.write_bytes(result.image_bytes)

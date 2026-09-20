@@ -39,4 +39,7 @@ app.mount("/generated", StaticFiles(directory=settings.generated_batches_dir), n
 
 @app.get("/api/health")
 def health() -> dict[str, str]:
-    return {"status": "ok"}
+    # "app" permet à un script/agent de vérifier qu'il parle bien à ShowMe et
+    # pas à un autre serveur qui occuperait le même port (voir
+    # scripts/start_showme.sh et AGENT.md).
+    return {"status": "ok", "app": "ShowMe-5WH"}

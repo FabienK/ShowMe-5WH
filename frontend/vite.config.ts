@@ -8,8 +8,8 @@ export default defineConfig({
     host: true,
     port: process.env.PORT ? Number(process.env.PORT) : 5173,
     proxy: {
-      "/api": "http://localhost:8000",
-      "/generated": "http://localhost:8000",
+      "/api": "http://localhost:8540",
+      "/generated": "http://localhost:8540",
     },
   },
   test: {
