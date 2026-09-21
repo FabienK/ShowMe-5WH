@@ -15,6 +15,12 @@ kill_matching() {   # kill_matching <nom> <motif pgrep -f>
     printf '· %s : pas lancé.\n' "$name"
     return 0
   fi
+  local pid
+  for pid in $pids; do   # d'où venait-il ? (ComfyUI est partagé : Blog, ShowMe… peuvent l'avoir lancé)
+    printf '  pid %s, lancé le %s, depuis %s\n' "$pid" \
+      "$(ps -o lstart= -p "$pid" | sed 's/^ *//; s/ *$//')" \
+      "$(lsof -p "$pid" -a -d cwd -Fn 2>/dev/null | sed -n 's/^n//p' | head -n1)"
+  done
   kill $pids 2>/dev/null || true
   sleep 1
   pgrep -f "$pattern" >/dev/null && kill -9 $pids 2>/dev/null || true

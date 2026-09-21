@@ -1,7 +1,7 @@
 # État du projet — Générateur d'images 4W1H
 
-Snapshot au 20/09/2026 (mise à jour : port 8540, AGENT.md, verrou de
-génération — voir la première section ci-dessous). Le `README.md` à la racine ne décrit
+Snapshot au 21/09/2026 (mise à jour : détection d'un ComfyUI périmé dans
+`start_showme.sh` — voir la première section ci-dessous). Le `README.md` à la racine ne décrit
 que la V1 initiale ; ce fichier documente ce qui a été ajouté depuis, sans
 dupliquer le contenu du README (installation, presets, checklist Mac
 mini — voir `README.md` pour ça).
@@ -15,6 +15,60 @@ git déplacé tel quel, historique intact), le pack a migré vers
 `Projets Claude code/Pack Gumroad Methode 5Q/`. Les chemins relatifs
 internes au repo (`backend/`, `frontend/`, `ComfyUI/`…) sont inchangés,
 seule la racine a bougé.
+
+## Session du 21/09/2026 : ComfyUI périmé après le déménagement, `start_showme.sh` durci
+
+**Symptôme** : génération `sdxl_minimaliste` en échec (« checkpoint introuvable »)
+alors que `sd_xl_base_1.0.safetensors` était bien dans `ComfyUI/models/checkpoints`
+et que `presets.json` pointait dessus. Flux (GGUF / Mflux) passait.
+
+**Cause** : le ComfyUI sur 8188 avait été lancé le 17/09 par le projet **Blog**
+(`Blog/backend/comfyui_launcher.py`, session détachée, journal
+`Blog/logs/comfyui.log`) depuis l'ancien chemin
+`Image generator /Image-generator/ComfyUI`, **avant** le déménagement du 20/09.
+Le processus a survécu au déplacement du dossier mais gardait ses chemins
+absolus : `CheckpointLoaderSimple`, `LoraLoader`, `LoadImage` en
+`FileNotFoundError`, `/object_info/CheckpointLoaderSimple` → HTTP 500.
+`start_showme.sh` le prenait pour un ComfyUI valide (`/system_stats` répondait).
+
+**Décision : pas d'arrêt automatique de ComfyUI sur inactivité.** Au repos il
+coûte 0 % CPU / ~600 Mo ; un redémarrage + rechargement de modèle coûte 2-4 min
+sur le Mac mini à chaque reprise, et ça ne traiterait pas la cause (instance
+lancée d'ailleurs). On rend le démarrage capable de reconnaître un ComfyUI
+sain et de remplacer les autres.
+
+**Fait** :
+- `scripts/start_showme.sh` : `ensure_comfyui` vérifie (a) que le processus
+  qui écoute sur 8188 a pour cwd `ShowMe-5WH/ComfyUI`, (b) que
+  `GET /object_info/CheckpointLoaderSimple` liste `sd_xl_base_1.0.safetensors`.
+  Sinon : message avec pid / date / raison, puis remplacement si aucune
+  génération n'est en cours (`/api/status` `busy` **et** file ComfyUI
+  `/prompt` `queue_remaining`), refus explicite (exit 1) sinon.
+  Option `--restart-comfyui` (cycle forcé, même garde-fou « occupé »).
+  Options parsées en boucle (`--with-frontend` et `--restart-comfyui` cumulables).
+- Lancement détaché corrigé : `( cd … && exec nohup … </dev/null >>log 2>&1 ) & disown`.
+  L'ancien `( cd … && nohup … & )` laissait un `bash start_showme.sh` endormi
+  par service, parent du processus, qui gardait les descripteurs hérités
+  ouverts (a bloqué une commande en arrière-plan sur un `tail`). Désormais
+  ppid = 1 (launchd), aucun bash résiduel. Les deux résidus (27739, 77227) tués.
+- `scripts/stop_showme.sh` : affiche pid, date de lancement et cwd de chaque
+  processus arrêté (savoir d'où venait un ComfyUI partagé).
+- `AGENT.md` §1 et §8 mis à jour.
+- Ménage : deux Streamlit sans rapport (ports 8501/8502, lancés le 18/09
+  depuis `~/Documents`) arrêtés à la demande de Fabien.
+
+**Vérifié en conditions réelles** : cas sain (pas de relance, pid conservé) ;
+`--restart-comfyui` (nouveau pid, ppid 1, 3 checkpoints visibles, aucun bash
+résiduel) ; cas périmé simulé (`--base-directory` sans `models/` → détecté,
+remplacé) ; cas occupé (batch SDXL en cours → refus exit 1, ComfyUI intact) ;
+génération SDXL de bout en bout OK (`sdxl_minimaliste`, seed 3000937487 en
+direct, puis batch `20260921T123433_748edbe1`).
+
+**Point ouvert — projet Blog (hors périmètre, non modifié)** :
+`Blog/config.json` → `comfyui.dir` pointe toujours sur
+`…/Image generator /Image-generator/ComfyUI` (n'existe plus). Tant que ShowMe a
+lancé ComfyUI, Blog le réutilise ; sinon Blog échouera « ComfyUI introuvable ».
+À corriger côté Blog : `"dir": "/Users/fabien_1/Documents/Projets Claude code/ShowMe-5WH/ComfyUI"`.
 
 ## Session du 20/09/2026 (soir) : port dédié 8540, `AGENT.md`, verrou de génération
 

@@ -19,10 +19,18 @@ API : **`http://127.0.0.1:8540/api`** (port dédié — pas 8000, pas 8080).
 ```
 
 Idempotent : lance ComfyUI (8188) et le backend (8540) s'ils ne tournent pas,
-ne touche à rien s'ils tournent déjà, **refuse** (exit 1, message explicite)
-si un port est occupé par un autre programme — dans ce cas, arrêter ce
-programme ou le déplacer, ne jamais lancer ShowMe sur un autre port. Le
+ne touche à rien s'ils tournent déjà et sont sains, **refuse** (exit 1, message
+explicite) si un port est occupé par un autre programme — dans ce cas, arrêter
+ce programme ou le déplacer, ne jamais lancer ShowMe sur un autre port. Le
 frontend web n'est pas nécessaire pour l'API (`--with-frontend` pour l'avoir).
+
+ComfyUI est **partagé entre projets** et peut avoir été lancé d'ailleurs, ou
+avant un déplacement de dossier : il répond alors sur le port mais ses chemins
+de modèles sont périmés. Le script vérifie donc qu'il tourne depuis
+`ShowMe-5WH/ComfyUI` **et** que `CheckpointLoaderSimple` voit
+`sd_xl_base_1.0.safetensors` ; sinon il le remplace — sauf si une génération
+est en cours (exit 1, relancer plus tard). `--restart-comfyui` force ce cycle.
+Ne jamais lancer ComfyUI autrement que par ce script.
 
 Vérification que l'on parle bien à ShowMe (et pas à un autre serveur) :
 
@@ -211,5 +219,9 @@ Les items s'exécutent en série ; une erreur sur un item n'arrête pas le batch
   `img2img_not_supported_for_model` 422 · `invalid_reference_image` 422 ·
   `comfyui_unreachable` 503 (relancer §1) · `comfyui_timeout` 504 ·
   `comfyui_generation_failed` 502 · `openai_api_key_missing` 503.
+- `comfyui_generation_failed` avec « No such file or directory » ou « value not
+  in list » dans `ComfyUI/comfyui_run.log` alors que le fichier modèle existe :
+  ComfyUI a été lancé depuis un ancien chemin (ou par un autre projet) →
+  relancer §1, qui le détecte et le remplace.
 - Sorties hors batch : ComfyUI écrit aussi chaque image dans
   `ShowMe-5WH/ComfyUI/output/` (utile si la réponse HTTP a été perdue).
